@@ -1,0 +1,14 @@
+{
+  "name": "serverbrowser",
+  "version": "1.0.0",
+  "description": "Simple Server Browser",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "PGgamer2",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
