@@ -4,7 +4,7 @@ var app = express();
 
 // Settings
 const port = 80;
-var acceptLocalhost = false;
+const acceptLocalhost = false;
 
 var servers = [];
 
