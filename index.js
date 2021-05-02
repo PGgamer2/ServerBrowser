@@ -1,10 +1,8 @@
 var net = require("net");
+var config = require('./config.json');
+var is_ip_private = require('private-ip');
 var express = require('express');
 var app = express();
-
-// Settings
-const port = 80;
-const acceptLocalhost = false;
 
 var servers = [];
 
@@ -22,8 +20,8 @@ app.post('/add', async function (req, res) {
     var host = req.query.host;
     var port = req.query.port;
 
-    if (!acceptLocalhost) {
-        if (host == "localhost" || host == "127.0.0.1" || host == "::1") {
+    if (!config.acceptPrivateIPs) {
+        if (host == "localhost" || is_ip_private(host)) {
             res.status(409).end();
             return;
         }
@@ -67,7 +65,7 @@ async function testEveryServer() {
         await testPort(servers[i].host, servers[i].port);
     }
 }
-setInterval(testEveryServer, 1000);
+setInterval(testEveryServer, config.checkOnlineServersInterval);
 
 async function testPort(host, port) {
     // Test if host is online (TCP)
@@ -78,6 +76,6 @@ async function testPort(host, port) {
     });    
 }
 
-app.listen(port, () => {
-    console.log(`App listening at http://localhost:${port}`);
+app.listen(config.port, () => {
+    console.log(`App listening at http://localhost:${config.port}`);
 });
